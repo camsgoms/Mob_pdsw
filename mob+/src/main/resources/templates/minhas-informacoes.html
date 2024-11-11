@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Informações</title>
+    <link rel="stylesheet" href="/css/minhas-informacoes.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Minhas Informações</h1>
+        <div class="info-section">
+            <p><strong>Nome:</strong> <span th:text="${pessoa.nome}">Nome do Usuário</span></p>
+            <p><strong>Email:</strong> <span th:text="${pessoa.email}">Email do Usuário</span></p>
+            <p><strong>Deficiência:</strong> <span th:text="${pessoa.deficiencia}">Deficiência do Usuário</span></p>
+            <p><strong>Tipo de Deficiência:</strong> <span th:text="${pessoa.tipoDeficiencia}">Tipo de Deficiência</span></p>
+            <p><strong>Descrição da Deficiência:</strong> <span th:text="${pessoa.descricao}">Descrição da Deficiência</span></p>
+            <p><strong>Documento:</strong> <span th:text="${pessoa.documento}">Documento do Usuário</span></p>
+            <p><strong>Telefone:</strong> <span th:text="${pessoa.telefone}">Telefone do Usuário</span></p>
+            <p><strong>Endereço:</strong> <span th:text="${pessoa.endereco}">Endereço do Usuário</span></p>
+            <p><strong>Data de Nascimento:</strong> <span th:text="${pessoa.dataNascimento}">Data de Nascimento</span></p>
+            <p><strong>Nome do Responsável:</strong> <span th:text="${pessoa.nomeResponsavel}">Nome do Responsável</span></p>
+            <p><strong>Telefone do Responsável:</strong> <span th:text="${pessoa.telefoneResponsavel}">Telefone do Responsável</span></p>
+            <p><strong>Observações:</strong> <span th:text="${pessoa.observacoes}">Observações</span></p>
+            <p><strong>Entidade Cadastradora:</strong> 
+                <span th:text="${pessoa.cras != null ? 'CRAS' : (pessoa.ong != null ? 'ONG' : 'Não disponível')}">Entidade Cadastradora</span>
+            </p>
+        </div>
+        <div class="btn-container">
+            <button onclick="alterarSenha()">Alterar Senha</button>
+            <button onclick="alterarDados()">Alterar Dados</button>
+            <button onclick="voltarPaginaInicial()">Voltar para a Página Inicial</button>
+        </div>
+    </div>
+
+    <script>
+        function alterarSenha() {
+            location.href = '/alterar-senha-pessoa';
+        }
+
+        function alterarDados() {
+            location.href = '/alterar-dados-pessoa';
+        }
+
+        function voltarPaginaInicial() {
+            location.href = '/pagina-inicial';
+        }
+    </script>
+</body>
+</html>

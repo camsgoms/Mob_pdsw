@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Museo+Moderno:wght@400;700&display=swap');
+
+body {
+    font-family: 'Museo Moderno', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fff;
+    position: relative;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 1000px;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+.form-content {
+    padding: 20px;
+    text-align: left;
+}
+
+.form-title {
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+}
+
+.btn-container-top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px; /* Ajuste este valor conforme necessário */
+}
+
+.btn-cadastrar {
+    padding: 8px 16px;
+    color: #000;
+    background: linear-gradient(to right, #0097B2, #7ED957);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-size: 14px;
+    width: 200px;
+    height: 35px;
+    margin-bottom: 10px;
+}
+
+.btn-cadastrar:hover {
+    background-color: #007a94;
+}
+
+.btn-logout {
+    align-self: flex-end;
+    margin-top: 500px;
+}
+
+.informacoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    background: linear-gradient(to right, #0097B2, #7ED957);
+    border-radius: 20px;
+    max-width: 400px;
+    color: #fff;
+    display: none;
+    font-size: 14px; /* Diminui o tamanho do texto */
+    position: absolute; /* Para alinhar com o botão */
+}
+
+.informacoes a {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-size: 14px;
+    margin-top: 5px; /* Reduz a margem superior */
+}
+
+.informacoes a:hover {
+    text-decoration: underline;
+}
+
+#informacoes.show {
+    display: block;
+}

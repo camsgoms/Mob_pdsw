@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corridas Disponíveis</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            margin: 4px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-reject {
+            background-color: #f44336;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Corridas Disponíveis</h1>
+
+    <!-- Verifica se há corridas disponíveis -->
+    <div th:if="${#lists.isEmpty(corridas)}">
+        <p>Não há corridas disponíveis no momento.</p>
+    </div>
+
+    <!-- Exibe a lista de corridas se existirem -->
+    <div th:if="${not #lists.isEmpty(corridas)}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ponto de Partida</th>
+                    <th>Ponto Final</th>
+                    <th>Latitude de Partida</th>
+                    <th>Longitude de Partida</th>
+                    <th>Latitude de Destino</th>
+                    <th>Longitude de Destino</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="corrida : ${corridas}">
+                    <td th:text="${corrida.id}"></td>
+                    <td th:text="${corrida.pontoPartida}"></td>
+                    <td th:text="${corrida.pontoFinal}"></td>
+                    <td th:text="${corrida.partidaLatitude}"></td>
+                    <td th:text="${corrida.partidaLongitude}"></td>
+                    <td th:text="${corrida.destinoLatitude}"></td>
+                    <td th:text="${corrida.destinoLongitude}"></td>
+                    <td>
+                        <!-- Botão para aceitar a corrida -->
+                        <form th:action="@{'/motorista/corridas/' + ${corrida.id} + '/aceitar'}" method="post">
+                            <button type="submit" class="btn">Aceitar</button>
+                        </form>
+
+                        <!-- Botão para rejeitar a corrida -->
+                        <form th:action="@{'/motorista/corridas/' + ${corrida.id} + '/rejeitar'}" method="post">
+                            <button type="submit" class="btn btn-reject">Rejeitar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

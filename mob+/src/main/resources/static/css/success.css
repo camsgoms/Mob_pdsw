@@ -1,0 +1,221 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Museo Moderno', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fff;
+    position: relative;
+}
+
+.navbar {
+    width: 100%;
+    background-color: #d3cbf3;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar-logo {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+
+.form-title {
+    font-size: 24px;
+    color: #000000;
+    text-align: left;
+}
+
+.navbar .btn-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-cadastrar {
+    padding: 8px 16px;
+    color: #fff;
+    background: linear-gradient(to right, #0097B2, #7ED957);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-size: 14px;
+    height: 35px;
+    flex-shrink: 1;
+    white-space: nowrap; /* Evita que o texto dentro dos botões quebre em duas linhas */
+}
+
+.btn-cadastrar:hover {
+    background-color: #007a94;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 1000px;
+    position: absolute;
+    top: 100px;
+    left: 10%;
+    padding: 0 20px;
+}
+
+.form-content {
+    padding: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+}
+
+.informacoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    background: linear-gradient(to right, #0097B2, #7ED957);
+    border-radius: 20px;
+    max-width: 100%;
+    color: #fff;
+    display: none;
+    font-size: 14px;
+    position: absolute;
+}
+
+.informacoes a {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.informacoes a:hover {
+    text-decoration: underline;
+}
+
+#informacoes.show {
+    display: block;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #f3f3f3;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.card h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.card button {
+    padding: 10px 20px;
+    background: linear-gradient(to right, #0097B2, #7ED957);
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.card button:hover {
+    background-color: #007a94;
+    transform: scale(1.05);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+    .navbar .form-title {
+        font-size: 20px;
+        margin-left: 8px; /* Ajuste de margem para telas menores */
+    }
+
+    .btn-cadastrar {
+        font-size: 12px;
+        padding: 6px 12px;
+        flex-shrink: 1;
+        max-width: 120px;
+    }
+
+    .navbar .btn-container {
+        gap: 5px;
+    }
+
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        margin-bottom: 20px;
+        width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar .form-title {
+        font-size: 18px;
+        margin-left: 5px; /* Ajuste de margem para telas pequenas */
+    }
+
+    .btn-cadastrar {
+        font-size: 10px;
+        padding: 4px 8px;
+        max-width: 100px;
+    }
+
+    .navbar .btn-container {
+        gap: 2px;
+    }
+}

@@ -1,0 +1,65 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Museo+Moderno:wght@400;700&display=swap');
+/* Comente temporariamente o @font-face para depuração
+@font-face {
+    font-family: 'HK Grotesk';
+    src: url('path-to-your-font/HKGrotesk-Regular.woff2') format('woff2'),
+         url('path-to-your-font/HKGrotesk-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+*/
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Museo Moderno', sans-serif;
+    background-color: #fff;
+}
+
+.container {
+    text-align: center;
+}
+
+.logo {
+    width: 150px; /* Ajuste de tamanho */
+    height: auto;
+}
+
+.welcome {
+    margin-top: 80px;
+}
+
+.welcome h3 {
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    margin-bottom: 20px;
+    font-weight: bold; /* Texto em negrito */
+}
+
+.btn {
+    display: block;
+    width: 250px;
+    margin: 10px auto;
+    padding: 15px;
+    font-size: 18px;
+    color: #fff;
+    border: none;
+    border-radius: 30px; /* Bordas arredondadas */
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.btn-ong {
+    background: linear-gradient(to right, #0097B2, #7ED957); /* Gradiente conforme imagem */
+}
+
+.btn-cras {
+    background: linear-gradient(to right, #A682ED, #00BF63); /* Gradiente conforme imagem */
+}
+
+.btn:hover {
+    opacity: 0.8; /* Efeito hover */
+}

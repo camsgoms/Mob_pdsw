@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Museo+Moderno:wght@400;700&display=swap');
+
+body {
+    font-family: 'Museo Moderno', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0; /* Cor de fundo mais clara para o corpo */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px; /* Diminuí um pouco para uma largura mais adequada */
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #0097B2; /* Cor de destaque */
+}
+
+form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-size: 16px;
+    color: #333; /* Cor do texto do rótulo */
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+}
+
+button {
+    padding: 10px 20px;
+    color: #fff;
+    background: linear-gradient(to right, #0097B2, #7ED957);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-size: 16px;
+    width: 100%;
+    height: 45px;
+}
+
+button:hover {
+    background-color: #007a94;
+}
+
+a {
+    color: #0097B2;
+    text-decoration: none;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-size: 14px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Viagem</title>
+    <link rel="stylesheet" href="/css/login-usuario.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+        }
+        .form-container {
+            margin: 20px 0;
+        }
+        .form-container input, .form-container select {
+            margin-bottom: 10px;
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .autocomplete-suggestions {
+            border: 1px solid #d4d4d4;
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: white;
+            z-index: 1000;
+            position: absolute;
+            width: 300px;
+        }
+        .autocomplete-suggestions div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .autocomplete-suggestions div:hover {
+            background-color: #e9e9e9;
+        }
+        .realizar-viagem-container {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Selecionar Motorista Disponível</h2>
+
+    <!-- Seleção de motoristas disponíveis -->
+    <div class="form-container">
+        <label for="motoristasDisponiveis">Motoristas Disponíveis:</label><br>
+        <select id="motoristasDisponiveis">
+            <option value="">Selecione um motorista</option>
+            <!-- Lista de motoristas disponíveis -->
+            <th:block th:each="motorista : ${motoristasDisponiveis}">
+                <option th:value="${motorista.id}" th:text="${motorista.nome}"></option>
+            </th:block>
+        </select>
+    </div>
+
+    <!-- Formulário para ponto de partida e ponto final -->
+    <div class="form-container">
+        <label for="pontoPartida">Ponto de Partida:</label><br>
+        <input type="text" id="pontoPartida" name="pontoPartida" placeholder="Digite o local de partida" autocomplete="off"><br>
+        <div id="suggestionsPartida" class="autocomplete-suggestions"></div>
+        
+        <label for="pontoFinal">Ponto Final:</label><br>
+        <input type="text" id="pontoFinal" name="pontoFinal" placeholder="Digite o local de destino" autocomplete="off"><br>
+        <div id="suggestionsFinal" class="autocomplete-suggestions"></div>
+        
+        <button onclick="calcularRota()">Calcular Rota</button>
+    </div>
+
+    <!-- Mapa -->
+    <div id="map"></div>
+
+    <!-- Botão para realizar a viagem -->
+    <div class="realizar-viagem-container">
+        <button id="btn-realizar-viagem" onclick="realizarViagem()">Realizar Viagem</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var partidaCoords, destinoCoords;
+
+            // Inicializa o mapa com a biblioteca Leaflet
+            var map = L.map('map').setView([-23.5505, -46.6333], 12); // São Paulo como exemplo
+
+            // Adiciona o mapa OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Função para geocodificar um local e retornar as coordenadas
+            function geocodificarLocal(local, callback) {
+                var url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(local)}&format=json&limit=1`;
+                
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            callback([data[0].lat, data[0].lon]);
+                        } else {
+                            alert("Local não encontrado: " + local);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar local:', error);
+                    });
+            }
+
+            // Função para sugerir locais (autocomplete) enquanto o usuário digita
+            function buscarSugestoes(local, callback) {
+                var url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(local)}&format=json&limit=5`;
+                
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        callback(data);
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar sugestões:', error);
+                    });
+            }
+
+            function preencherSugestoes(suggestionsElement, suggestions, inputElement) {
+                suggestionsElement.innerHTML = '';
+                suggestions.forEach(function(suggestion) {
+                    var div = document.createElement('div');
+                    div.textContent = suggestion.display_name;
+                    div.addEventListener('click', function() {
+                        inputElement.value = suggestion.display_name;
+                        suggestionsElement.innerHTML = '';
+                    });
+                    suggestionsElement.appendChild(div);
+                });
+            }
+
+            // Eventos de digitação nos campos de partida e final para sugerir locais
+            document.getElementById('pontoPartida').addEventListener('input', function() {
+                var query = this.value;
+                if (query.length > 2) {
+                    buscarSugestoes(query, function(suggestions) {
+                        preencherSugestoes(document.getElementById('suggestionsPartida'), suggestions, document.getElementById('pontoPartida'));
+                    });
+                } else {
+                    document.getElementById('suggestionsPartida').innerHTML = '';
+                }
+            });
+
+            document.getElementById('pontoFinal').addEventListener('input', function() {
+                var query = this.value;
+                if (query.length > 2) {
+                    buscarSugestoes(query, function(suggestions) {
+                        preencherSugestoes(document.getElementById('suggestionsFinal'), suggestions, document.getElementById('pontoFinal'));
+                    });
+                } else {
+                    document.getElementById('suggestionsFinal').innerHTML = '';
+                }
+            });
+
+            // Função para calcular a rota entre o ponto de partida e o destino
+            function calcularRota() {
+                var pontoPartida = document.getElementById('pontoPartida').value;
+                var pontoFinal = document.getElementById('pontoFinal').value;
+
+                if (!pontoPartida || !pontoFinal) {
+                    alert('Por favor, insira o ponto de partida e o ponto final.');
+                    return;
+                }
+
+                geocodificarLocal(pontoPartida, function(partida) {
+                    geocodificarLocal(pontoFinal, function(destino) {
+                        partidaCoords = partida;
+                        destinoCoords = destino;
+
+                        map.eachLayer(function (layer) {
+                            if (!!layer.toGeoJSON) { 
+                                map.removeLayer(layer); 
+                            }
+                        });
+
+                        L.marker(partidaCoords).addTo(map).bindPopup('<b>Ponto de Partida</b>').openPopup();
+                        L.marker(destinoCoords).addTo(map).bindPopup('<b>Destino</b>').openPopup();
+
+                        var bounds = L.latLngBounds([partidaCoords, destinoCoords]);
+                        map.fitBounds(bounds);
+
+                        L.polyline([partidaCoords, destinoCoords], {color: 'blue'}).addTo(map);
+
+                        document.querySelector('.realizar-viagem-container').style.display = 'block';
+                    });
+                });
+            }
+
+            // Função para realizar a viagem e enviar para o servidor
+            function realizarViagem() {
+                var motoristaSelecionado = document.getElementById("motoristasDisponiveis").value;
+                var pontoPartida = document.getElementById('pontoPartida').value;
+                var pontoFinal = document.getElementById('pontoFinal').value;
+
+                if (!motoristaSelecionado || !pontoPartida || !pontoFinal) {
+                    alert('Por favor, preencha todos os campos e selecione um motorista.');
+                    return;
+                }
+
+                // Enviar dados via POST para o backend
+                fetch('/viagens/salvar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `pontoPartida=${encodeURIComponent(pontoPartida)}&pontoFinal=${encodeURIComponent(pontoFinal)}&motoristaId=${encodeURIComponent(motoristaSelecionado)}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);  // Mensagem de sucesso ou erro
+                })
+                .catch(error => {
+                    console.error('Erro ao realizar viagem:', error);
+                    alert('Erro ao realizar viagem!');
+                });
+            }
+
+            window.calcularRota = calcularRota;
+            window.realizarViagem = realizarViagem;
+        });
+    </script>
+</body>
+</html>

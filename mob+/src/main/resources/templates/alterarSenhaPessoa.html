@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Senha - Pessoa com Deficiência</title>
+    <link rel="stylesheet" href="/css/alterar-senha.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Alterar Senha</h1>
+        <!-- Corrigido: Remoção de form duplicado -->
+        <form action="/alterar-senha-pessoa" method="post">
+            <div>
+                <label for="email">Email:</label>
+                <!-- Campo de e-mail preenchido automaticamente -->
+                <input type="email" id="email" name="email" th:value="${emailPessoaLogado}" required readonly>
+            </div>
+            <div>
+                <label for="novaSenha">Nova Senha:</label>
+                <input type="password" id="novaSenha" name="novaSenha" required>
+            </div>
+            <button type="submit">Alterar Senha</button>
+        </form>
+        <!-- Link para voltar à página anterior -->
+        <a th:href="${emailPessoaLogado != null ? '/login-usuario' : '/error'}">Voltar</a>
+    </div>
+</body>
+</html>

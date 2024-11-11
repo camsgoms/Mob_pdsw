@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial do Motorista</title>
+    <link rel="stylesheet" href="/css/login-usuario.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-content">
+            <!-- Exibe o nome do motorista -->
+            <p th:if="${motorista != null}">Bem-vindo, <span th:text="${motorista.nome}">Motorista</span>!</p>
+
+        </div>
+        <div class="btn-container-top-right">
+            <button id="btn-informacoes" class="btn-cadastrar" onclick="toggleInformacoes()">Minhas Informações</button>
+            <button class="btn-cadastrar btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div id="informacoes" class="informacoes" style="display: none;">
+        <div>
+            <label>Nome: <span th:text="${motorista.nome}">Nome do Motorista</span></label>
+        </div>
+        <div>
+            <label>Email: <span th:text="${motorista.email}">Email do Motorista</span></label>
+        </div>
+        <div>
+            <label>Telefone: <span th:text="${motorista.telefone}">Telefone do Motorista</span></label>
+        </div>
+        <div class="btn-container">
+            <a href="/alterar-senha-motorista">Alterar Senha</a>
+        </div>
+        <div class="btn-container">
+            <a href="/alterar-dados-motorista">Alterar Dados</a>
+        </div>
+        <!-- Adiciona botão "Visualizar Viagens" -->
+        <div class="btn-container">
+            <a href="/visualizar-viagens" class="btn-cadastrar">Visualizar Viagens</a>
+        </div>
+
+        <!-- Formulário para atualizar disponibilidade -->
+        <form th:action="@{/motoristas/{id}/atualizar-disponibilidade(id=${motorista.id})}" method="post">
+            <label for="disponivel">Disponibilidade:</label>
+            <select id="disponivel" name="disponivel">
+                <option value="1" th:selected="${motorista.disponivel} == true">Disponível</option>
+                <option value="0" th:selected="${motorista.disponivel} == false">Indisponível</option>
+            </select>
+
+            <button type="submit">Atualizar Disponibilidade</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleInformacoes() {
+            var infoDiv = document.getElementById('informacoes');
+            var btnInformacoes = document.getElementById('btn-informacoes');
+            var rect = btnInformacoes.getBoundingClientRect();
+            infoDiv.style.top = (rect.bottom + window.scrollY + 20) + 'px'; // Adiciona 20px de espaço
+            infoDiv.style.left = rect.left + 'px';
+
+            if (infoDiv.style.display === 'none' || infoDiv.style.display === '') {
+                infoDiv.style.display = 'block';
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            window.location.href = "/sessao-encerrada-motorista";
+        }
+    </script>
+</body>
+</html>
