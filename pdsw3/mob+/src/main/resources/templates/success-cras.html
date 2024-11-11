@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial do CRAS</title>
+    <link rel="stylesheet" href="/css/success.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-content">
+            <div class="form-title">Olá, CRAS _!</div>
+        </div>
+        <div class="btn-container-top-right">
+            <button id="btn-informacoes" class="btn-cadastrar" onclick="toggleInformacoes()">Minhas Informações</button>
+            <button class="btn-cadastrar btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div id="informacoes" class="informacoes">
+        <div>
+            <label>Nome: CRAS _</label>
+        </div>
+        <div>
+            <label>CNPJ: 00.000.000/0000-00</label>
+        </div>
+        <div>
+            <label>Email: exemplo@cras.com</label>
+        </div>
+        <div>
+            <label>Contato: (00) 00000-0000</label>
+        </div>
+        <div class="btn-container">
+            <a onclick="alterarSenha()">Alterar Senha</a>
+        </div>
+        <div class="btn-container">
+            <a onclick="alterarDados()">Alterar Dados</a>
+        </div>
+        <!-- Adicionando o botão para cadastrar pessoa com deficiência -->
+        <div class="btn-container">
+            <a onclick="cadastrarPessoaComDeficiencia()">Cadastrar Pessoa com Deficiência</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleInformacoes() {
+            var infoDiv = document.getElementById('informacoes');
+            var btnInformacoes = document.getElementById('btn-informacoes');
+            var rect = btnInformacoes.getBoundingClientRect();
+            infoDiv.style.top = (rect.bottom + window.scrollY + 20) + 'px'; // Adiciona 20px de espaço
+            infoDiv.style.left = rect.left + 'px';
+
+            if (infoDiv.style.display === 'none' || infoDiv.style.display === '') {
+                infoDiv.style.display = 'block';
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        }
+
+        function alterarSenha() {
+            window.location.href = "/alterar-senha";
+        }
+
+        function alterarDados() {
+            window.location.href = "/alterar-dados";
+        }
+
+        function cadastrarPessoaComDeficiencia() {
+            window.location.href = "/cadastrar-pessoa-deficiencia"; // Atualize para a URL correta
+        }
+
+        function logout() {
+            window.location.href = "/sessao-encerrada";
+        }
+    </script>
+</body>
+</html>

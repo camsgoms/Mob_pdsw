@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="/css/login-usuario.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Bem-vindo(a), <span id="nomeUsuario">${nomeUsuario}</span></h2>
+        <div class="btn-container">
+            <button onclick="location.href='/alterar-senha-pessoa'">Alterar Senha</button>
+            <button onclick="location.href='/alterar-dados-pessoa'">Alterar Dados</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+        <div id="informacoes">
+            <p><strong>Email:</strong> <span id="emailUsuario">${emailUsuario}</span></p>
+            <!-- Inclua outras informações necessárias aqui -->
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            window.location.href = "/sessao-encerrada-pessoa";
+        }
+    </script>
+</body>
+</html>

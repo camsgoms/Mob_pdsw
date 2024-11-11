@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Museo+Moderno:wght@400;700&display=swap');
+
+body {
+    font-family: 'Museo Moderno', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fff;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.success-container {
+    text-align: left; /* Alinhado à esquerda */
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.success-title {
+    font-family: 'Museo Moderno', sans-serif;
+    font-weight: bold;
+    color: #4c0080; /* Cor roxa */
+    font-size: 48px;
+    margin: 0;
+    padding: 0;
+}
+
+.success-message {
+    font-size: 24px;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 80px; /* Ajuste conforme necessário */
+    height: auto;
+}
+
+.btn-home {
+    margin-top: 20px; /* Espaço acima do botão */
+    padding: 15px 30px;
+    font-size: 18px;
+    color: #fff;
+    border: none;
+    border-radius: 30px; /* Bordas arredondadas */
+    cursor: pointer;
+    background: linear-gradient(to right, #A682ED, #00BF63); /* Gradiente conforme imagem */
+    transition: opacity 0.3s;
+    
+}
+
+.btn-home:hover {
+    opacity: 0.8; /* Efeito hover */
+}

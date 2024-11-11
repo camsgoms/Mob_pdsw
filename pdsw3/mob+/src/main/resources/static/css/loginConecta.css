@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Museo+Moderno:wght@400;700&display=swap');
+
+body {
+    font-family: 'Museo Moderno', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fff;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.form-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-image img {
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+}
+
+.form-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.form-title {
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-weight: 600;
+    margin-bottom: 30px;
+    font-size: 24px;
+    color: #4c0080;
+    text-align: left; /* Alinhado à esquerda */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input, select {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    width: 250px; /* Mantendo todos os campos do mesmo tamanho */
+    height: 35px;
+    box-sizing: border-box; /* Incluindo padding e border no tamanho total */
+    background-color: #fff; /* Cor de fundo igual aos outros campos */
+    color: #aaa; /* Cor do texto */
+}
+
+input::placeholder, select option {
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-size: 14px;
+    color: #aaa;
+}
+
+select {
+    -webkit-appearance: none; /* Removendo a aparência padrão do select */
+    -moz-appearance: none; /* Removendo a aparência padrão do select */
+    appearance: none; /* Removendo a aparência padrão do select */
+    padding: 8px; /* Ajuste de padding para combinar com os inputs */
+    border-radius: 20px; /* Bordas arredondadas */
+    border: 1px solid #ccc; /* Mesma borda dos inputs */
+    width: 250px; /* Mesma largura dos inputs */
+    height: 35px; /* Mesma altura dos inputs */
+    color: #aaa; /* Cor do texto igual aos outros campos */
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-start; /* Alinhado à esquerda */
+    margin-top: 5px; /* Adiciona espaço extra acima do botão */
+}
+
+.btn-logar {
+    padding: 8px 16px;
+    color: #fff;
+    background: linear-gradient(to right,  #0097B2, #7ED957);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Museo Moderno', Arial, sans-serif;
+    font-size: 14px;
+    width: 150px;
+    height: 35px;
+    margin-left: 0; /* Alinhado à esquerda */
+}
+
+.btn-logar:hover {
+    background-color: #007a94;
+}

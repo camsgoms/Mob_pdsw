@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Sucesso</title>
+    <link rel="stylesheet" href="/css/cadastrocras_feito.css">
+</head>
+<body>
+    <div class="container">
+        <div class="success-container">
+            <h1 class="success-title">Eba!</h1>
+            <p class="success-message">CRAS<br>cadastrado<br>com sucesso!</p>
+            <button class="btn-home" onclick="goToHome()">Voltar</button>
+        </div>
+        <div class="logo-container">
+            <img src="/images/logolivre.png" alt="Logo" class="logo">
+        </div>
+    </div>
+
+    <script>
+        function goToHome() {
+            window.location.href = '/'; // Redireciona para a página inicial
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Sucesso</title>
+    <link rel="stylesheet" href="/css/cadastroong_feito.css">
+</head>
+<body>
+    <div class="container">
+        <div class="success-container">
+            <h1 class="success-title">Eba!</h1>
+            <p class="success-message">ONG<br>cadastrada<br>com sucesso!</p>
+            <button class="btn-home" onclick="goToHome()">Voltar</button>
+        </div>
+        <div class="logo-container">
+            <img src="/images/logolivre.png" alt="Logo" class="logo">
+        </div>
+    </div>
+
+    <script>
+        function goToHome() {
+            window.location.href = '/ong'; // Caminho para a URL mapeada no OngController
+        }
+    </script>
+</body>
+</html>

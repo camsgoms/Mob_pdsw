@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logar Conecta</title>
+    <link rel="stylesheet" href="/css/loginONGCRAS.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-image">
+            <img src="/images/fade.png" alt="Fade Image">
+        </div>
+        <div class="form-content">
+            <h2 class="form-title">Faça seu login</h2>
+            <form action="/login-ongcras" method="post">
+                <div>
+                    <input type="text" id="email" name="email" placeholder="Email" required><br><br>
+                    <input type="password" id="senha" name="senha" placeholder="Senha" required><br><br>
+                    
+                    <!-- Exibe a mensagem de erro se houver -->
+                    <div id="error-message" th:if="${error}" th:text="${error}" style="color: red;"></div>
+                    
+                    <div class="btn-container">
+                        <button type="submit" class="btn-logar">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

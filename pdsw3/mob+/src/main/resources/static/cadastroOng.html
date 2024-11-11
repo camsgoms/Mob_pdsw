@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de ONG</title>
+    <link rel="stylesheet" href="/css/cadastroOng.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-image">
+            <img src="/images/fade.png" alt="Fade Image">
+        </div>
+        <div class="form-content">
+            <h1 class="form-title">Cadastro de ONG</h1>
+            <form action="/salvar-ong" method="post" th:object="${ong}">
+                <div>
+                 
+                    <input type="text" id="nome" name="nome" th:field="*{nome}" placeholder="Nome" required><br><br>
+                    
+                     <input type="text" id="email" name="email" th:field="*{email}" placeholder="Email"><br><br>
+                    
+          
+                    <input type="text" id="cnpj" name="cnpj" th:field="*{cnpj}" placeholder="CNPJ" required><br><br>
+                    
+                  
+                    <input type="text" id="cidade" name="cidade" th:field="*{cidade}" placeholder="Cidade"><br><br>
+                    
+          
+                    <input type="text" id="bairro" name="bairro" th:field="*{bairro}" placeholder="Bairro"><br><br>
+                    
+              
+                    <input type="text" id="contato" name="contato" th:field="*{contato}" placeholder="Contato"><br><br>
+        
+                    <select id="tipo" name="tipo" th:field="*{tipo}">
+                        <option value="" disabled selected>Selecione o tipo de ONG</option>
+                        <option value="assistencia social">Assistência social</option>
+                        <option value="cultura">Cultura</option>
+                        <option value="saude">Saúde</option>
+                        <option value="meio ambiente">Meio Ambiente</option>
+                        <option value="desenvolvimento e defesa de direitos">Desenvolvimento e Defesa de Direitos</option>
+                        <option value="habitacao">Habitação</option>
+                        <option value="educacao e pesquisa">Educação e Pesquisa</option>
+                    </select><br><br>
+                    
+                    <div class="btn-container">
+                        <button type="submit" class="btn-cadastrar">Cadastrar ONG</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function removePlaceholderOption() {
+            const selectElement = document.getElementById('tipo');
+            const placeholderOption = selectElement.querySelector('option[value=""]');
+            if (placeholderOption) {
+                placeholderOption.remove();
+            }
+            selectElement.onclick = null; // Remove o evento de clique para evitar múltiplas execuções
+        }
+    </script>
+</body>
+</html>

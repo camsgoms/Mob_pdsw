@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mob+ - Sua carona mais acessível!</title>
+    <link rel="stylesheet" href="/css/telainicial.css">
+</head>
+<body>
+    <div class="container">
+        <img src="/images/logo.png" alt="Mob+ Logo" class="logo">
+        <div class="welcome">
+            <h3>Bem-vindo!</h3>
+            <button class="btn btn-ong" onclick="goToCadastroONG()">Cadastrar ONG</button>
+            <button class="btn btn-cras" onclick="goToCadastroCRAS()">Cadastrar CRAS</button>
+        </div>
+    </div>
+
+    <script>
+        
+        function goToCadastroONG() {
+            window.location.href = 'cadastroOng.html'; // Substitua pelo caminho correto da sua página inicial
+        }
+    
+        function goToCadastroCRAS() {
+			
+			 window.location.href = 'cadastroCras.html';   
+            
+        }
+    </script>
+</body>
+</html>
