@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial do Usuário</title>
+    <link rel="stylesheet" href="/css/login-usuario.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-content">
+            <div class="form-title">Olá, <span th:text="${pessoa.nome}">Usuário _</span>!</div>
+        </div>
+        <div class="btn-container-top-right">
+            <button id="btn-informacoes" class="btn-cadastrar" onclick="toggleInformacoes()">Minhas Informações</button>
+            <button class="btn-cadastrar btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div id="informacoes" class="informacoes" style="display: none;">
+        <div>
+            <label>Nome: <span th:text="${pessoa.nome}">Nome do Usuário</span></label>
+        </div>
+        <div>
+            <label>Email: <span th:text="${pessoa.email}">Email do Usuário</span></label>
+        </div>
+        <div>
+            <label>Deficiências:</label>
+            <ul>
+                <li th:each="deficiencia : ${pessoa.deficiencias}" th:text="${deficiencia}">Deficiência</li>
+            </ul>
+        </div>
+        <div>
+            <label>Entidade Cadastradora:</label>
+            <span th:if="${pessoa.ong != null}" th:text="${pessoa.ong.nome}">Nome da ONG</span>
+            <span th:if="${pessoa.cras != null}" th:text="${pessoa.cras.nome}">Nome do CRAS</span>
+        </div>
+        <div class="btn-container">
+            <a href="/alterar-senha-pessoa">Alterar Senha</a>
+        </div>
+        <div class="btn-container">
+            <a href="/alterar-dados-pessoa">Alterar Dados</a>
+        </div>
+        <div class="btn-container">
+            <a href="/realizar-viagem" class="btn-cadastrar">Realizar Viagem</a>
+        </div>
+        <div class="btn-container">
+            <a href="/visualizar-viagens-usuario" class="btn-cadastrar">Visualizar Viagens</a>
+        </div>
+    </div>
+
+    <script>
+        // Verificar se o usuário já está autenticado ao carregar a página
+        window.onload = function() {
+            // A sessão do usuário pode ser verificada aqui, usando uma variável de sessão ou cookie
+            // Verifique se o usuário está logado (exemplo com sessionStorage)
+            var pessoaComDeficienciaLogada = sessionStorage.getItem('pessoaComDeficienciaLogada');
+
+            if (pessoaComDeficienciaLogada) {
+                // Se estiver logado, redireciona para a página de visualização de viagens
+                window.location.href = '/visualizar-viagens-usuario';  // Redireciona automaticamente para a página correta
+            }
+        };
+
+        function toggleInformacoes() {
+            var infoDiv = document.getElementById('informacoes');
+            if (infoDiv.style.display === 'none' || infoDiv.style.display === '') {
+                infoDiv.style.display = 'block';
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('pessoaComDeficienciaLogada'); // Remove a sessão do usuário ao sair
+            window.location.href = "/sessao-encerrada-pessoa"; // Redireciona para a página de logout
+        }
+    </script>
+</body>
+</html>

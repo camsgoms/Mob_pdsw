@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial da ONG</title>
+    <link rel="stylesheet" href="/css/success-ong.css">
+</head>
+
+<body>
+    <!-- Barra de Navegação -->
+    <div class="navbar">
+        <img src="/images/logolivre.PNG" class="navbar-logo">
+        <div class="btn-container">
+            <button id="btn-informacoes" class="btn-cadastrar" onclick="toggleInformacoes()">Minhas Informações</button>
+            <button class="btn-cadastrar btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="container">
+        <div class="form-content">
+            <h2 class="form-title">Olá, <span th:text="${ong.nome}">ONG _</span>!</h2>
+        </div>
+
+        <div class="card-container">
+            <div class="card">
+                <h3>Cadastrar Pessoa</h3>
+                <p>Clique aqui para cadastrar uma nova pessoa vinculada à sua ONG.</p>
+                <button onclick="cadastrarPessoaComDeficiencia()">Cadastrar</button>
+            </div>
+            <div class="card">
+                <h3>Visualizar Pessoas Cadastradas</h3>
+                <p>Veja a lista de pessoas cadastradas por sua ONG.</p>
+                <button onclick="visualizarPessoasCadastradas()">Visualizar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informações da ONG -->
+    <div id="informacoes" class="informacoes">
+        <div>
+            <label>Nome: <span th:text="${ong.nome}">Nome da ONG</span></label>
+        </div>
+        <div>
+            <label>CNPJ: <span th:text="${ong.cnpj}">CNPJ da ONG</span></label>
+        </div>
+        <div>
+            <label>Email: <span th:text="${ong.email}">Email da ONG</span></label>
+        </div>
+        <div>
+            <label>Contato: <span th:text="${ong.contato}">Telefone da ONG</span></label>
+        </div>
+        <div class="btn-container">
+            <a onclick="alterarSenha()">Alterar Senha</a>
+        </div>
+        <div class="btn-container">
+            <a onclick="alterarDados()">Alterar Dados</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function toggleInformacoes() {
+            const infoDiv = document.getElementById('informacoes');
+            const btnInformacoes = document.getElementById('btn-informacoes');
+            const rect = btnInformacoes.getBoundingClientRect();
+            infoDiv.style.top = (rect.bottom + window.scrollY + 20) + 'px';
+            infoDiv.style.left = rect.left + 'px';
+
+            if (infoDiv.style.display === 'none' || infoDiv.style.display === '') {
+                infoDiv.style.display = 'block';
+            } else {
+                infoDiv.style.display = 'none';
+            }
+        }
+
+        function alterarSenha() {
+            window.location.href = "/alterar-senha";
+        }
+
+        function alterarDados() {
+            window.location.href = "/alterar-dados";
+        }
+
+        function cadastrarPessoaComDeficiencia() {
+            window.location.href = "/cadastrar-pessoa-deficiencia";
+        }
+
+        function visualizarPessoasCadastradas() {
+            window.location.href = "/visualizar-pessoas-cadastradas";
+        }
+
+        function logout() {
+            window.location.href = "/sessao-encerrada";
+        }
+    </script>
+</body>
+
+</html>

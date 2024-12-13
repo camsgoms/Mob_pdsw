@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Motorista</title>
+    <link rel="stylesheet" href="/css/cadastro-motorista.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-image">
+            <img src="/images/fade.png" alt="Fade Image">
+        </div>
+      
+        <form action="/cadastrar" method="post" onsubmit="return validateForm()">
+            <h2>Cadastro de Motorista</h2>
+            <div class="form-group">
+                <label for="nome">Nome Completo:</label>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+            </div>
+            <div class="form-group">
+                <label for="veiculo">Veículo:</label>
+                <input type="text" id="veiculo" name="veiculo" placeholder="Digite o modelo do veículo" required>
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" placeholder="Digite seu telefone" required>
+            </div>
+            <div class="form-group">
+                <label>Necessidades Especiais Suportadas:</label>
+                <small>(Selecione as opções que você suporta. Isso será utilizado para compatibilização com os passageiros)</small>
+                <div>
+                    <input type="checkbox" id="deficiente-fisico" name="necessidades[]" value="Deficiência Física">
+                    <label for="deficiente-fisico">Suporta Deficiência Física</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="deficiente-sensorial" name="necessidades[]" value="Deficiência Sensorial">
+                    <label for="deficiente-sensorial">Suporta Deficiência Sensorial</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="deficiente-intelectual" name="necessidades[]" value="Deficiência Intelectual">
+                    <label for="deficiente-intelectual">Suporta Deficiência Intelectual</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="deficiente-multipla" name="necessidades[]" value="Deficiência Múltipla">
+                    <label for="deficiente-multipla">Suporta Deficiência Múltipla</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        function validateForm() {
+            var nome = document.getElementById("nome").value;
+            var email = document.getElementById("email").value;
+            var veiculo = document.getElementById("veiculo").value;
+            var telefone = document.getElementById("telefone").value;
+            var checkboxes = document.querySelectorAll('input[name="necessidades[]"]:checked');
+
+            if (!nome || !email || !veiculo || !telefone || checkboxes.length === 0) {
+                alert("Todos os campos são obrigatórios, incluindo as necessidades especiais suportadas!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de CRAS</title>
+    <link rel="stylesheet" href="/css/cadastroCras.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-image">
+            <img src="/images/fade.png" alt="Fade Image">
+        </div>
+        <div class="form-content">
+            <h1 class="form-title">Cadastro de CRAS</h1>
+            <form action="/salvar-cras" method="post" th:object="${cras}">
+                <div>
+                    <input type="text" id="nome" name="nome" th:field="*{nome}" placeholder="Nome" required><br><br>
+                    
+                   
+                    <input type="email" id="email" name="email" th:field="*{email}" placeholder="Email" required><br><br>
+                    
+                    
+                    <input type="text" id="cidade" name="cidade" th:field="*{cidade}" placeholder="Cidade"><br><br>
+                    
+                   
+                    <input type="text" id="bairro" name="bairro" th:field="*{bairro}" placeholder="Bairro"><br><br>
+                    
+                 
+                    <input type="text" id="contato" name="contato" th:field="*{contato}" placeholder="Contato"><br><br>
+                    
+                  
+                    <select id="tipo" name="tipo" th:field="*{tipo}" onclick="removePlaceholderOption()">
+                        <option value="" disabled selected>Tipo de CRAS</option>
+                        <option value="paif">Serviço de Proteção e Atendimento Integral à Família (PAIF)</option>
+                        <option value="scfv">Serviço de convivência e fortalecimento de vínculos (SCFV)</option>
+                        <option value="idosos">Serviço de proteção social básica no domicílio para pessoas com deficiência e idosos</option>
+                    </select><br><br>
+                    
+                    <div class="btn-container">
+                        <button type="submit" class="btn-cadastrar">Cadastrar CRAS</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function removePlaceholderOption() {
+            const selectElement = document.getElementById('tipo');
+            const placeholderOption = selectElement.querySelector('option[value=""]');
+            if (placeholderOption) {
+                placeholderOption.remove();
+            }
+            selectElement.onclick = null; // Remove o evento de clique para evitar múltiplas execuções
+        }
+
+        function goToHome() {
+            window.location.href = 'telainicial.html'; // Substitua pelo caminho correto da sua página inicial
+        }
+    </script>
+</body>
+</html>

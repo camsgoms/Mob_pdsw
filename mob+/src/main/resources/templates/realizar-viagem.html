@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realizar Viagem</title>
+    <link rel="stylesheet" href="/css/login-usuario.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+        .form-container {
+            margin: 20px 0;
+        }
+        .form-container input, .form-container select {
+            margin-bottom: 10px;
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .autocomplete-suggestions {
+            border: 1px solid #d4d4d4;
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: white;
+            z-index: 1000;
+            position: absolute;
+            width: 300px;
+        }
+        .autocomplete-suggestions div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .autocomplete-suggestions div:hover {
+            background-color: #e9e9e9;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Solicitar Viagem</h2>
+
+    <div class="form-container">
+        <form id="viagemForm" action="/viagens/salvar" method="POST">
+            <!-- Campo Motoristas -->
+            <label for="motoristasDisponiveis">Motoristas Disponíveis:</label><br>
+            <select id="motoristasDisponiveis" name="motoristaId" required>
+                <option value="">Selecione um motorista</option>
+                <th:block th:each="motorista : ${motoristasDisponiveis}">
+                    <option th:value="${motorista.id}" th:text="${motorista.nome}"></option>
+                </th:block>
+            </select><br>
+
+            <!-- Ponto de Partida e Destino -->
+            <label for="pontoPartida">Ponto de Partida:</label><br>
+            <input type="text" id="pontoPartida" name="pontoPartida" placeholder="Digite o local de partida" autocomplete="off" required>
+            <div id="suggestionsPartida" class="autocomplete-suggestions"></div><br>
+            <label for="pontoDestino">Ponto Final:</label><br>
+            <input type="text" id="pontoDestino" name="pontoDestino" placeholder="Digite o local de destino" autocomplete="off" required>
+            <div id="suggestionsDestino" class="autocomplete-suggestions"></div><br>
+
+            <!-- Campo Deficiência -->
+            <label for="deficiencia">Deficiência:</label><br>
+            <select id="deficiencia" name="deficiencia" readonly>
+                <option value="deficiencia_fisica">Deficiência Física</option>
+                <option value="deficiencia_auditiva">Deficiência Auditiva</option>
+                <option value="deficiencia_visual">Deficiência Visual</option>
+                <option value="outros">Outros</option>
+            </select><br>
+
+            <!-- Problemas Específicos -->
+            <label for="problemasEspecificos">Problemas Específicos:</label><br>
+            <select id="problemasEspecificos" name="problemasEspecificos" required>
+                <option value="">Selecione uma deficiência primeiro</option>
+            </select><br>
+
+            <!-- Campo Necessidades -->
+            <label for="necessidades">Necessidades Especiais:</label><br>
+            <textarea id="necessidades" name="necessidades" placeholder="Descreva necessidades adicionais"></textarea><br>
+
+            <!-- Botão Calcular Rota -->
+            <button type="button" id="calcularRotaBtn">Calcular Rota</button>
+
+            <button type="submit">Solicitar Viagem</button>
+        </form>
+    </div>
+
+    <!-- Mapa -->
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const usuarioDeficiencia = "deficiencia_auditiva"; // Exemplo: substitua isso pela resposta do backend
+
+            const problemasPorDeficiencia = {
+                deficiencia_fisica: [
+                    { value: 'cadeira_rodas', text: 'Uso de cadeira de rodas' },
+                    { value: 'prótese', text: 'Uso de prótese' },
+                    { value: 'dificuldade_locomocao', text: 'Dificuldade de locomoção' }
+                ],
+                deficiencia_auditiva: [
+                    { value: 'surdos', text: 'Surdez total' },
+                    { value: 'hipoacusia', text: 'Hipoacusia (perda parcial da audição)' },
+                    { value: 'uso_aparelho', text: 'Uso de aparelho auditivo' }
+                ],
+                deficiencia_visual: [
+                    { value: 'cegueira_total', text: 'Cegueira total' },
+                    { value: 'baixa_visao', text: 'Baixa visão' },
+                    { value: 'uso_cao_guia', text: 'Uso de cão-guia' }
+                ],
+                outros: [
+                    { value: 'outros', text: 'Outros (especifique)' }
+                ]
+            };
+
+            const deficienciaSelect = document.getElementById('deficiencia');
+            const problemasEspecificosSelect = document.getElementById('problemasEspecificos');
+
+            // Define o valor inicial do campo deficiência
+            deficienciaSelect.value = usuarioDeficiencia;
+
+            // Preenche os problemas específicos automaticamente
+            function carregarProblemasEspecificos() {
+                const selectedDeficiencia = deficienciaSelect.value;
+                problemasEspecificosSelect.innerHTML = '<option value="">Selecione uma opção</option>';
+                if (problemasPorDeficiencia[selectedDeficiencia]) {
+                    problemasPorDeficiencia[selectedDeficiencia].forEach(function (problema) {
+                        const option = document.createElement('option');
+                        option.value = problema.value;
+                        option.textContent = problema.text;
+                        problemasEspecificosSelect.appendChild(option);
+                    });
+                }
+            }
+
+            carregarProblemasEspecificos();
+
+            // Inicializar o mapa com a biblioteca Leaflet
+            const map = L.map('map').setView([-23.5505, -46.6333], 12); // São Paulo como exemplo
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            let partidaCoords, destinoCoords;
+
+            // Função para geocodificar e buscar sugestões
+            function buscarSugestoes(local, callback) {
+                const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(local)}&format=json&limit=5`;
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => callback(data))
+                    .catch(error => console.error('Erro ao buscar sugestões:', error));
+            }
+
+            function preencherSugestoes(suggestionsElement, suggestions, inputElement) {
+                suggestionsElement.innerHTML = '';
+                suggestions.forEach(suggestion => {
+                    const div = document.createElement('div');
+                    div.textContent = suggestion.display_name;
+                    div.addEventListener('click', () => {
+                        inputElement.value = suggestion.display_name;
+                        suggestionsElement.innerHTML = '';
+                    });
+                    suggestionsElement.appendChild(div);
+                });
+            }
+
+            // Eventos para autocomplete
+            document.getElementById('pontoPartida').addEventListener('input', function () {
+                const query = this.value;
+                if (query.length > 2) {
+                    buscarSugestoes(query, suggestions => {
+                        preencherSugestoes(
+                            document.getElementById('suggestionsPartida'),
+                            suggestions,
+                            this
+                        );
+                    });
+                } else {
+                    document.getElementById('suggestionsPartida').innerHTML = '';
+                }
+            });
+
+            document.getElementById('pontoDestino').addEventListener('input', function () {
+                const query = this.value;
+                if (query.length > 2) {
+                    buscarSugestoes(query, suggestions => {
+                        preencherSugestoes(
+                            document.getElementById('suggestionsDestino'),
+                            suggestions,
+                            this
+                        );
+                    });
+                } else {
+                    document.getElementById('suggestionsDestino').innerHTML = '';
+                }
+            });
+
+            // Botão para calcular rota
+            document.getElementById('calcularRotaBtn').addEventListener('click', function () {
+                const pontoPartida = document.getElementById('pontoPartida').value;
+                const pontoDestino = document.getElementById('pontoDestino').value;
+
+                if (!pontoPartida || !pontoDestino) {
+                    alert('Por favor, insira o ponto de partida e o ponto final.');
+                    return;
+                }
+
+                buscarSugestoes(pontoPartida, partida => {
+                    buscarSugestoes(pontoDestino, destino => {
+                        partidaCoords = [partida[0].lat, partida[0].lon];
+                        destinoCoords = [destino[0].lat, destino[0].lon];
+
+                        L.marker(partidaCoords).addTo(map).bindPopup('Partida').openPopup();
+                        L.marker(destinoCoords).addTo(map).bindPopup('Destino').openPopup();
+                        map.fitBounds([partidaCoords, destinoCoords]);
+
+                        L.polyline([partidaCoords, destinoCoords], { color: 'blue' }).addTo(map);
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
