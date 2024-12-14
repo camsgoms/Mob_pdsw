@@ -2,6 +2,7 @@ package com.example.mob.controladores;
 
 import com.example.mob.entidades.Motorista;
 import com.example.mob.entidades.PessoaComDeficiencia;
+<<<<<<< HEAD
 import com.example.mob.entidades.Ong;
 import com.example.mob.entidades.Cras;
 import com.example.mob.servicos.MotoristaService;
@@ -9,6 +10,12 @@ import com.example.mob.servicos.PessoaComDeficienciaService;
 import com.example.mob.servicos.OngService;
 import com.example.mob.servicos.CrasService;
 
+=======
+import com.example.mob.servicos.MotoristaService;
+import com.example.mob.servicos.PessoaComDeficienciaService;
+import com.example.mob.servicos.OngService;
+import com.example.mob.entidades.Ong;
+>>>>>>> de3de605a8be45961874f858a0848d667f0adfd7
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +25,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+<<<<<<< HEAD
 import java.util.List;
 
+=======
+>>>>>>> de3de605a8be45961874f858a0848d667f0adfd7
 @Controller
 public class LoginController {
 
@@ -32,9 +42,12 @@ public class LoginController {
     @Autowired
     private OngService ongService;
 
+<<<<<<< HEAD
     @Autowired
     private CrasService crasService;
 
+=======
+>>>>>>> de3de605a8be45961874f858a0848d667f0adfd7
     @GetMapping("/login-usuario")
     public String loginUsuario(HttpSession session, Model model) {
         Long usuarioId = (Long) session.getAttribute("usuarioId");
@@ -67,6 +80,7 @@ public class LoginController {
         return "redirect:/login";
     }
 
+<<<<<<< HEAD
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String senha, HttpSession session, Model model) {
         // Verifica Motorista
@@ -192,6 +206,46 @@ public class LoginController {
         } catch (Exception e) {
             model.addAttribute("error", "Erro ao cadastrar a pessoa: " + e.getMessage());
             return "error";
+=======
+    @PostMapping("/login-pessoa")
+    public String loginOng(@RequestParam String email, @RequestParam String senha, Model model) {
+        Ong ong = ongService.findByEmail(email);
+
+        if (ong != null && ong.getSenha().equals(senha)) {
+            model.addAttribute("nomeUsuario", ong.getNome());
+            model.addAttribute("emailUsuario", ong.getEmail());
+            return "pagina-inicial";
+        } else {
+            model.addAttribute("error", "Email ou senha inválidos!");
+            return "login-pessoa";
+        }
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String email, @RequestParam String senha, HttpSession session, Model model) {
+        Motorista motorista = motoristaService.findByEmail(email);
+        if (motorista != null && motorista.getSenha().equals(senha)) {
+            session.setAttribute("usuarioId", motorista.getId());
+            session.setAttribute("motoristaLogado", motorista); // Armazena o objeto do motorista
+            session.setAttribute("usuarioTipo", "motorista");
+            return "redirect:/login-motorista"; // Corrigido para login-motorista
+        }
+
+        try {
+            PessoaComDeficiencia pessoa = pessoaComDeficienciaService.findByEmail(email);
+            if (pessoa != null && pessoa.getSenha().equals(senha)) {
+                session.setAttribute("usuarioId", pessoa.getId());
+                session.setAttribute("usuarioNome", pessoa.getNome());
+                session.setAttribute("usuarioTipo", "pessoa");
+                return "redirect:/login-usuario";
+            }
+
+            model.addAttribute("error", "Email ou senha inválidos!");
+            return "login";
+        } catch (Exception e) {
+            model.addAttribute("error", "Erro durante o login: " + e.getMessage());
+            return "login";
+>>>>>>> de3de605a8be45961874f858a0848d667f0adfd7
         }
     }
 

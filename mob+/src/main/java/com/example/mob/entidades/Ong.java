@@ -1,6 +1,9 @@
 package com.example.mob.entidades;
 
+<<<<<<< HEAD
 import jakarta.persistence.Column;
+=======
+>>>>>>> de3de605a8be45961874f858a0848d667f0adfd7
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +16,7 @@ public class Ong {
     private Long id;
 
     private String nome;
+<<<<<<< HEAD
 
     private String cnpj;
 
@@ -28,6 +32,15 @@ public class Ong {
     private String email;
 
     private String senha; // Atributo para senha
+=======
+    private String cnpj;
+    private String cidade;
+    private String bairro;
+    private String contato;
+    private String tipo;
+    private String email;
+    private String senha; // Adicionando o atributo senha
+>>>>>>> de3de605a8be45961874f858a0848d667f0adfd7
 
     // Getters e Setters
 
