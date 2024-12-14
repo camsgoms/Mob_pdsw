@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Pessoa com Deficiência</title>
+    <link rel="stylesheet" href="/css/cadastro.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Museo+Moderno:wght@400;700&display=swap">
+    <style>
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .checkbox-group label {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastrar Pessoa com Deficiência</h1>
+        <form action="/cadastrar-pessoa-deficiencia" method="post">
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" placeholder="Nome completo" required>
+            </div>
+            <div>
+                <label for="deficiencias">Deficiências:</label>
+                <div class="checkbox-group" id="deficiencias">
+                    <label>
+                        <input type="checkbox" name="deficiencias[]" value="Deficiência Física"> Deficiência Física
+                    </label>
+                    <label>
+                        <input type="checkbox" name="deficiencias[]" value="Deficiência Sensorial"> Deficiência Sensorial
+                    </label>
+                    <label>
+                        <input type="checkbox" name="deficiencias[]" value="Deficiência Intelectual"> Deficiência Intelectual
+                    </label>
+                    <label>
+                        <input type="checkbox" name="deficiencias[]" value="Deficiência Múltipla"> Deficiência Múltipla
+                    </label>
+                </div>
+            </div>
+            <div>
+                <label for="descricao">Descrição da Deficiência:</label>
+                <textarea id="descricao" name="descricao" placeholder="Detalhes adicionais sobre a deficiência"></textarea>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Seu email" required>
+            </div>
+            <div>
+                <label for="documento">Documento:</label>
+                <input type="text" id="documento" name="documento" placeholder="Número do documento" required>
+            </div>
+            <div>
+                <label for="telefone">Telefone:</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="Número de telefone" required>
+            </div>
+            <div>
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" placeholder="Endereço completo" required>
+            </div>
+            <div>
+                <label for="dataNascimento">Data de Nascimento:</label>
+                <input type="date" id="dataNascimento" name="dataNascimento" required>
+            </div>
+            <div>
+                <label for="nomeResponsavel">Nome do Responsável (se aplicável):</label>
+                <input type="text" id="nomeResponsavel" name="nomeResponsavel" placeholder="Nome completo do responsável">
+            </div>
+            <div>
+                <label for="telefoneResponsavel">Telefone do Responsável:</label>
+                <input type="tel" id="telefoneResponsavel" name="telefoneResponsavel" placeholder="Telefone do responsável">
+            </div>
+            <div>
+                <label for="observacoes">Observações:</label>
+                <textarea id="observacoes" name="observacoes" placeholder="Observações adicionais"></textarea>
+            </div>
+            <div>
+                <button type="submit">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Viagens</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+        .btn {
+            padding: 8px 16px;
+            margin: 4px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-reject {
+            background-color: #f44336;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+        .message {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+    <script>
+        function aceitarViagem(id) {
+            fetch(`/corridas/${id}/aceitar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Viagem aceita!');
+                    document.getElementById('status-' + id).innerText = 'Em andamento';
+                    document.getElementById('acoes-' + id).innerHTML = `<button class="btn" onclick="finalizarViagem(${id}, true)">Finalizar</button>`;
+                    mostrarMensagem('Viagem em andamento');
+                } else {
+                    response.text().then(text => alert(`Erro ao aceitar a viagem: ${text}`));
+                }
+            })
+            .catch(error => console.error('Erro ao aceitar a viagem:', error));
+        }
+
+        function rejeitarViagem(id) {
+            fetch(`/corridas/${id}/rejeitar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Viagem rejeitada!');
+                    document.getElementById('status-' + id).innerText = 'Rejeitada';
+                    document.getElementById('acoes-' + id).style.display = 'none';
+                    mostrarMensagem('Viagem rejeitada');
+                } else {
+                    response.text().then(text => alert(`Erro ao rejeitar a viagem: ${text}`));
+                }
+            })
+            .catch(error => console.error('Erro ao rejeitar a viagem:', error));
+        }
+
+        function finalizarViagem(id, confirmacao) {
+            fetch(`/corridas/${id}/confirmar-finalizacao`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ confirmacao })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Viagem finalizada!');
+                    document.getElementById('status-' + id).innerText = 'Finalizada';
+                    document.getElementById('acoes-' + id).style.display = 'none';
+                    mostrarMensagem('Viagem finalizada');
+                } else {
+                    response.text().then(text => alert(`Erro ao finalizar a viagem: ${text}`));
+                }
+            })
+            .catch(error => console.error('Erro ao finalizar a viagem:', error));
+        }
+
+        function mostrarMensagem(mensagem) {
+            const messageDiv = document.getElementById('mensagem-status');
+            messageDiv.innerText = mensagem;
+            messageDiv.style.display = 'block';
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);  // Oculta a mensagem após 3 segundos
+        }
+    </script>
+</head>
+<body>
+    <h1>Viagens Disponíveis</h1>
+
+    <!-- Mensagem de status -->
+    <div id="mensagem-status" class="message" style="display: none;"></div>
+
+    <!-- Verifica se há viagens -->
+    <div th:if="${#lists.isEmpty(viagens)}">
+        <p>Não há viagens disponíveis no momento.</p>
+    </div>
+
+    <!-- Exibe a lista de viagens se existirem -->
+    <div th:if="${not #lists.isEmpty(viagens)}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ponto de Partida</th>
+                    <th>Ponto Final</th>
+                    <th>Necessidades Especiais</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="viagem : ${viagens}">
+                    <td th:text="${viagem.id}"></td>
+                    <td th:text="${viagem.pontoPartida}"></td>
+                    <td th:text="${viagem.pontoDestino}"></td>
+                    <td th:text="${viagem.requisitosAdicionais}">Necessidades Especiais</td>
+                    <td th:id="'status-' + ${viagem.id}" th:text="${viagem.status}"></td>
+                    <td th:id="'acoes-' + ${viagem.id}">
+                        <!-- Mostrar botão de aceitar e rejeitar -->
+                        <div th:if="${viagem.status != 'Em andamento' && viagem.status != 'Finalizada'}">
+                            <button class="btn" th:onclick="'aceitarViagem(' + ${viagem.id} + ')'" >Aceitar</button>
+                            <button class="btn btn-reject" th:onclick="'rejeitarViagem(' + ${viagem.id} + ')'" >Rejeitar</button>
+                        </div>
+                        <!-- Mostrar botão de finalizar -->
+                        <div th:if="${viagem.status == 'Em andamento'}">
+                            <button class="btn" th:onclick="'finalizarViagem(' + ${viagem.id} + ', true)'" >Finalizar</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

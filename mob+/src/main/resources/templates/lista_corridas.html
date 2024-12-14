@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corridas Disponíveis</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            margin: 4px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-reject {
+            background-color: #f44336;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Corridas Disponíveis</h1>
+
+    <!-- Verifica se há corridas disponíveis -->
+    <div th:if="${#lists.isEmpty(viagens)}">
+        <p>Não há corridas disponíveis no momento.</p>
+    </div>
+
+    <!-- Exibe a lista de corridas se existirem -->
+    <div th:if="${not #lists.isEmpty(viagens)}">
+        <table>
+            <thead>
+                <tr>
+                    <th>Passageiro</th>
+                    <th>Partida</th>
+                    <th>Destino</th>
+                    <th>Necessidades</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="viagem : ${viagens}">
+                    <td th:text="${viagem.pessoaComDeficiencia.nome}"></td>
+                    <td th:text="${viagem.pontoPartida}"></td>
+                    <td th:text="${viagem.pontoDestino}"></td>
+                    <td th:text="${viagem.requisitosAdicionais}"></td>
+                    <td>
+                        <!-- Botão para aceitar a corrida -->
+                        <form action="/viagem/aceitar" method="post" th:action="@{'/viagem/' + ${viagem.id} + '/aceitar'}">
+                            <button type="submit" class="btn">Aceitar</button>
+                        </form>
+
+                        <!-- Botão para rejeitar a corrida -->
+                        <form action="/viagem/rejeitar" method="post" th:action="@{'/viagem/' + ${viagem.id} + '/rejeitar'}">
+                            <button type="submit" class="btn btn-reject">Rejeitar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

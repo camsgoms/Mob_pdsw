@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mob+ - Sua carona mais acessível!</title>
+    <link rel="stylesheet" href="/css/telainiciallogin.css">
+</head>
+<body>
+    <div class="container">
+        <img src="/images/logo.png" alt="Mob+ Logo" class="logo">
+        <div class="welcome">
+            <h2>Bem-vindo!</h2>
+            <h3>Faça seu login</h3>
+            <button class="btn btn-ong" onclick="goToLoginConecta()">Conecta Recife</button>
+            <button class="btn btn-cras" onclick="goToLoginONGCRAS()">ONG e CRAS</button>
+        </div>
+    </div>
+
+    <script>
+        
+        function goToLoginConecta() {
+            window.location.href = 'LoginConecta.html'; // Substitua pelo caminho correto da sua página inicial
+        }
+    
+        function goToLoginONGCRAS() {
+			
+			 window.location.href = 'LoginONGCRAS.html';   
+            
+        }
+    </script>
+</body>
+</html>
